@@ -102,13 +102,50 @@
 
   <script>
 
+    function submitTodo(){
+      var inputField = document.getElementById("new-todo");
+      var newToDoTitle = inputField.value;
+      createTodo(newToDoTitle);
+
+      inputField.value = null
+      updateCounters();
+    }
+
+    function createTodo(title){
+      //create list item
+      var listItem = document.createElement("li");
+      listItem.className = "todo";
+
+      //create a checkbox and add it to the list item
+      var checkbox = document.createElement("input")
+      checkbox.type = "checkbox";
+      checkbox.id = newCheckboxId();
+      checkbox.checked = false;
+      checkbox.onchange = toggleDone.bind(checkbox);
+      listItem.appendChild(checkbox);
+      listItem.appendChild(document.createTextNode(" "));
+
+      let label = document.create("label");
+      label.htmlFor = newCheckboxId();
+      label.innerHTML = title;
+      listItem.appendChild(label);
+
+      var list = document.getElementById("todolist");
+      list.appendChild(listItem);
+    }
+
+    function newCheckboxId(){
+      return `todo-${new Date().getTime()}`
+    };
+
+
     function toggleDone() {
       var checkbox = this;
 
       if (checkbox.checked) {
         checkbox.parentElement.className = "todo completed";
       } else {checkbox.parentElement.className = "todo";}
-      
+
       updateCounters();
 
     }
